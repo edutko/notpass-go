@@ -1,0 +1,18 @@
+# This is a test dictionary. It has extra whitespace and comments to ensure the parser tolerates
+# a variety of input.
+
+password
+  qwerty
+baseball
+football
+monkey
+letmein
+	dragon
+
+secret
+
+admin
+
+
+# All I see is *******
+hunter2
