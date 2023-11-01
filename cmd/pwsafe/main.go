@@ -16,6 +16,7 @@ import (
 
 func main() {
 	vaultFile := flag.String("vault", "", "read vault from this file (required)")
+	yubikey := flag.Bool("yubikey", false, "use YubiKey to open safe")
 	flag.Parse()
 
 	if *vaultFile == "" {
@@ -37,6 +38,13 @@ func main() {
 		log.Fatal(err)
 	}
 	password := string(p)
+
+	if *yubikey {
+		password, err = passwordsafe.PasswordFromYubikey(string(p))
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	v, err := passwordsafe.OpenVault(*vaultFile, password)
 	if err != nil {
@@ -77,7 +85,7 @@ func main() {
 		}
 		if !aborted {
 			e, _ := v.Get(l[i].Id())
-			fmt.Println(e.Password())
+			fmt.Println(e.Password().AsString())
 		}
 	}
 }

@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "yubikeys": {
+    "1234567": {
+      "type": "Yubikey 4 OTP+U2F",
+      "hmacsha1": {
+        "slot": 2,
+        "secret": "601598b189be7abaf383e5cb15f0429caf20da6a"
+      },
+      "version": "4.1.6"
+    }
+  }
+}

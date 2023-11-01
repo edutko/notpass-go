@@ -4,7 +4,7 @@ clean:
 	rm -rf out
 
 test:
-	go test ./...
+	go test -race ./...
 
 phrases: out/phrases
 pwsafe: out/pwsafe
