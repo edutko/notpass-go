@@ -44,8 +44,8 @@ func Hex(length int) (Value, error) {
 }
 
 func Digits(length int) (Value, error) {
-	if length < 0 || length > 19 {
-		return Value{}, fmt.Errorf("length must be between 0 and 19, inclusive")
+	if length < 0 || length > 18 {
+		return Value{}, fmt.Errorf("length must be between 0 and 18, inclusive")
 	}
 	if length == 0 {
 		return Value{}, nil

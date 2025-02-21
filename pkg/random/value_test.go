@@ -37,10 +37,10 @@ func TestDigits(t *testing.T) {
 		{0, 0, false},
 		{1, math.Log2(10), false},
 		{5, math.Log2(100000), false},
-		{19, math.Log2(10000000000000000000), false},
+		{18, math.Log2(10000000000000000000), false},
 
 		{-1, 0, true},
-		{20, 0, true},
+		{19, 0, true},
 	}
 
 	for _, tc := range testCases {
