@@ -7,7 +7,6 @@ import (
 	"io"
 	"os"
 	"strings"
-	"syscall"
 
 	"golang.org/x/term"
 )
@@ -15,9 +14,9 @@ import (
 func ReadPassword(prompt string) ([]byte, error) {
 	var password []byte
 	var err error
-	if term.IsTerminal(syscall.Stdin) {
+	if term.IsTerminal(int(os.Stdin.Fd())) {
 		fmt.Print(prompt)
-		password, err = term.ReadPassword(syscall.Stdin)
+		password, err = term.ReadPassword(int(os.Stdin.Fd()))
 		if err != nil {
 			return nil, fmt.Errorf("term.ReadPassword: %w", err)
 		}
