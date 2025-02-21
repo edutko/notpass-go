@@ -12,10 +12,16 @@ import (
 const configFile = "testdata/yubikeys.json"
 
 func init() {
+	if v := os.Getenv("SKIP_YUBIKEY_TESTS"); v != "" && v != "0" {
+		skipYubikeyTestsReason = "SKIP_YUBIKEY_TESTS environment variable is set to a non-zero value"
+		return
+	}
+
 	data, err := os.ReadFile(configFile)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			skipYubikeyTestsReason = configFile + " does not exist"
+			return
 		}
 		panic(err)
 	}
@@ -26,10 +32,6 @@ func init() {
 
 	if !cfg.Enabled {
 		skipYubikeyTestsReason = "config.Enabled is false"
-	}
-
-	if v := os.Getenv("SKIP_YUBIKEY_TESTS"); v != "" && v != "0" {
-		skipYubikeyTestsReason = "SKIP_YUBIKEY_TESTS environment variable is set to a non-zero value"
 	}
 }
 

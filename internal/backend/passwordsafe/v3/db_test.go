@@ -26,7 +26,7 @@ func TestOpenDb(t *testing.T) {
 	assert.Equal(t, "For testing purposes only!", db.Description())
 	assert.Len(t, db.List(), 9)
 
-	assert.Equal(t, time.Date(2023, 4, 2, 15, 31, 36, 0, time.Local), db.hdr.lastSavedAt)
+	assert.Equal(t, time.Date(2023, 4, 2, 19, 31, 36, 0, time.UTC), db.hdr.lastSavedAt.UTC())
 	assert.Equal(t, "Password Safe V3.58", db.hdr.lastSavedByWhat)
 	assert.Equal(t, "luke", db.hdr.lastSavedByWhom)
 	assert.Equal(t, "OWENS-PC", db.hdr.lastSavedOnHost)
@@ -40,7 +40,7 @@ func TestOpenDb_oldTimestampFormat(t *testing.T) {
 	db, err := OpenDb("testdata/test-3.08.psafe3", password)
 	assert.Nil(t, err)
 
-	assert.Equal(t, time.Date(2023, 4, 2, 15, 43, 53, 0, time.Local), db.hdr.lastSavedAt)
+	assert.Equal(t, time.Date(2023, 4, 2, 19, 43, 53, 0, time.UTC), db.hdr.lastSavedAt.UTC())
 
 	err = db.Close()
 	assert.Nil(t, err)
