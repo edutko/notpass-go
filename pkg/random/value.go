@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+	"strings"
 )
 
 type Value struct {
@@ -44,20 +45,19 @@ func Hex(length int) (Value, error) {
 }
 
 func Digits(length int) (Value, error) {
-	if length < 0 || length > 19 {
-		return Value{}, fmt.Errorf("length must be between 0 and 19, inclusive")
+	if length < 0 || length > 99 {
+		return Value{}, fmt.Errorf("length must be between 0 and 99, inclusive")
 	}
 	if length == 0 {
 		return Value{}, nil
 	}
 
-	maxF := math.Pow10(length)
-	max := big.NewInt(int64(maxF))
-	n, err := rand.Int(rand.Reader, max)
+	exclusiveMax, _ := big.NewInt(0).SetString("1"+strings.Repeat("0", length), 10)
+	n, err := rand.Int(rand.Reader, exclusiveMax)
 	if err != nil {
 		return Value{}, fmt.Errorf("rand.Int: %w", err)
 	}
 
 	format := fmt.Sprintf("%%0%dd", length)
-	return Value{fmt.Sprintf(format, n.Int64()), math.Log2(maxF)}, nil
+	return Value{fmt.Sprintf(format, n.Int64()), float64(length) / math.Log10(2)}, nil
 }
