@@ -2,6 +2,7 @@ package random
 
 import (
 	"encoding/hex"
+	"fmt"
 	"math"
 	"strconv"
 	"testing"
@@ -43,18 +44,20 @@ func TestDigits(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		r, err := Digits(tc.digits)
-		if tc.expectError {
-			assert.NotNil(t, err)
-		} else {
-			assert.Nil(t, err)
-			assert.Len(t, r.Value, tc.digits)
-
-			if r.Value != "" {
-				_, err = strconv.ParseInt(r.Value, 10, 64)
+		t.Run(fmt.Sprintf("%d digits", tc.digits), func(t *testing.T) {
+			r, err := Digits(tc.digits)
+			if tc.expectError {
+				assert.NotNil(t, err)
+			} else {
 				assert.Nil(t, err)
+				assert.Len(t, r.Value, tc.digits)
+
+				if r.Value != "" {
+					_, err = strconv.ParseInt(r.Value, 10, 64)
+					assert.Nil(t, err)
+				}
 			}
-		}
+		})
 	}
 }
 
@@ -73,19 +76,21 @@ func TestHex(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		r, err := Hex(tc.length)
-		if tc.expectError {
-			assert.NotNil(t, err)
-		} else {
-			assert.Nil(t, err)
-			assert.Len(t, r.Value, tc.length)
-
-			if tc.length%2 == 1 {
-				_, err = hex.DecodeString(r.Value + "0")
+		t.Run(fmt.Sprintf("%d hex digits", tc.length), func(t *testing.T) {
+			r, err := Hex(tc.length)
+			if tc.expectError {
+				assert.NotNil(t, err)
 			} else {
-				_, err = hex.DecodeString(r.Value)
+				assert.Nil(t, err)
+				assert.Len(t, r.Value, tc.length)
+
+				if tc.length%2 == 1 {
+					_, err = hex.DecodeString(r.Value + "0")
+				} else {
+					_, err = hex.DecodeString(r.Value)
+				}
+				assert.Nil(t, err)
 			}
-			assert.Nil(t, err)
-		}
+		})
 	}
 }
